@@ -88,9 +88,10 @@ def detecter4horizontalPlateau(plateau, numCoul) -> list:
         raise TypeError ("detecter4horizontalPlateau : le second paramètre n’est pas un entier")
     if numCoul != 0 and numCoul!=1 :
         raise ValueError ("détecter4horizontalPlateau : La valeur de la couleur ",numCoul," n’est pas correcte")
-    for ligne in range(len(plateau)):
+    for ligne in range(const.NB_LINES):
         aligne=False
         i=0
+        while i < const.NB_COLUMNS-3 and aligne == False :
             if plateau[ligne][i]!=None and plateau[ligne][i+1]!=None and plateau[ligne][i+2]!=None and plateau[ligne][i+3]!=None and getCouleurPion(plateau[ligne][i]) == numCoul and getCouleurPion(plateau[ligne][i+1]) == getCouleurPion(plateau[ligne][i]) and getCouleurPion(plateau[ligne][i+1]) == getCouleurPion(plateau[ligne][i+2]) and getCouleurPion(plateau[ligne][i+2]) == getCouleurPion(plateau[ligne][i+3]):
                 aligne=True
                 for u in range (4):
