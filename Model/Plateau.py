@@ -101,11 +101,6 @@ def detecter4horizontalPlateau(plateau, numCoul) -> list:
             i+=1
     return res
 
-
-
-
-
-
 #test 4 horizontal
 pion={'Couleur':const.JAUNE,'id':None}
 plat=[[None,None,None,{'Couleur':const.JAUNE,'id':1},{'Couleur':const.JAUNE,'id':2},{'Couleur':const.JAUNE,'id':3},{'Couleur':const.JAUNE,'id':4}],[None,None,None,None,None,None,{'Couleur':const.JAUNE,'id':7}],[None,None,None,None,None,None,{'Couleur':const.JAUNE,'id':8}],[None,None,None,None,None,None,{'Couleur':const.JAUNE,'id':9}],[None,None,None,None,None,None,{'Couleur':const.JAUNE,'id':10}],[None,None,None,None,None,None,{'Couleur':const.JAUNE,'id':11}]]
