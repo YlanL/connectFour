@@ -91,7 +91,6 @@ def detecter4horizontalPlateau(plateau, numCoul) -> list:
     for ligne in range(len(plateau)):
         aligne=False
         i=0
-        while i < const.NB_COLUMNS-3 and aligne == False :
             if plateau[ligne][i]!=None and plateau[ligne][i+1]!=None and plateau[ligne][i+2]!=None and plateau[ligne][i+3]!=None and getCouleurPion(plateau[ligne][i]) == numCoul and getCouleurPion(plateau[ligne][i+1]) == getCouleurPion(plateau[ligne][i]) and getCouleurPion(plateau[ligne][i+1]) == getCouleurPion(plateau[ligne][i+2]) and getCouleurPion(plateau[ligne][i+2]) == getCouleurPion(plateau[ligne][i+3]):
                 aligne=True
                 for u in range (4):
@@ -103,6 +102,7 @@ def detecter4horizontalPlateau(plateau, numCoul) -> list:
 pion={'Couleur':const.JAUNE,'id':None}
 plat=[[None,None,None,{'Couleur':const.JAUNE,'id':1},{'Couleur':const.JAUNE,'id':2},{'Couleur':const.JAUNE,'id':3},{'Couleur':const.JAUNE,'id':4}],[None,None,None,None,None,None,{'Couleur':const.JAUNE,'id':7}],[None,None,None,None,None,None,{'Couleur':const.JAUNE,'id':8}],[None,None,None,None,None,None,{'Couleur':const.JAUNE,'id':9}],[None,None,None,None,None,None,{'Couleur':const.JAUNE,'id':10}],[None,None,None,None,None,None,{'Couleur':const.JAUNE,'id':11}]]
 print(detecter4horizontalPlateau(plat,0))
+
 
 
 
