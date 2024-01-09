@@ -58,9 +58,9 @@ def placerpinPlateau(plateau : list, pion : dict, numCol :int) -> int :
     """
     numLigne=-1
     i=0
-    if type(plateau)!=list :
+    if not type_plateau(plateau):
         raise TypeError ("placerPionPlateau : Le premier paramètre ne correspond pas à un plateau")
-    if type(pion)!=dict:
+    if not type_pion(pion):
         raise TypeError ("placerPionPlateau : Le second paramètre n’est pas un pion")
     if type(numCol)!=int :
         raise TypeError ("placerPionPlateau : Le troisième paramètre n’est pas un entier")
@@ -79,10 +79,8 @@ def detecter4horizontalPlateau(plateau, numCoul) -> list:
     :param numCoul:
     :return:
     """
-    aligne = False
-    i=0
     res=[]
-    if type(plateau) != list :
+    if not type_plateau(plateau):
         raise TypeError ("detecter4horizontalPlateau : Le premier paramètre ne correspond pas à un plateau")
     if type(numCoul) != int :
         raise TypeError ("detecter4horizontalPlateau : le second paramètre n’est pas un entier")
@@ -92,7 +90,7 @@ def detecter4horizontalPlateau(plateau, numCoul) -> list:
         aligne=False
         i=0
         while i < const.NB_COLUMNS-3 and aligne == False :
-            if plateau[ligne][i]!=None and plateau[ligne][i+1]!=None and plateau[ligne][i+2]!=None and plateau[ligne][i+3]!=None and getCouleurPion(plateau[ligne][i]) == numCoul and getCouleurPion(plateau[ligne][i+1]) == getCouleurPion(plateau[ligne][i]) and getCouleurPion(plateau[ligne][i+1]) == getCouleurPion(plateau[ligne][i+2]) and getCouleurPion(plateau[ligne][i+2]) == getCouleurPion(plateau[ligne][i+3]):
+            if plateau[ligne][i]!=None and plateau[ligne][i+1]!=None and plateau[ligne][i+2]!=None and plateau[ligne][i+3]!=None and getCouleurPion(plateau[ligne][i+1]) == getCouleurPion(plateau[ligne][i]) and getCouleurPion(plateau[ligne][i+1]) == getCouleurPion(plateau[ligne][i+2]) and getCouleurPion(plateau[ligne][i+2]) == getCouleurPion(plateau[ligne][i+3]) and plateau[ligne][i][const.COULEUR] == numCoul :
                 aligne=True
                 for u in range (4):
                     res.append(plateau[ligne][i+u])
@@ -100,9 +98,8 @@ def detecter4horizontalPlateau(plateau, numCoul) -> list:
     return res
 
 #test 4 horizontal
-pion={'Couleur':const.JAUNE,'id':None}
-plat=[[None,None,None,{'Couleur':const.JAUNE,'id':1},{'Couleur':const.JAUNE,'id':2},{'Couleur':const.JAUNE,'id':3},{'Couleur':const.JAUNE,'id':4}],[None,None,None,None,None,None,{'Couleur':const.JAUNE,'id':7}],[None,None,None,None,None,None,{'Couleur':const.JAUNE,'id':8}],[None,None,None,None,None,None,{'Couleur':const.JAUNE,'id':9}],[None,None,None,None,None,None,{'Couleur':const.JAUNE,'id':10}],[None,None,None,None,None,None,{'Couleur':const.JAUNE,'id':11}]]
-print(detecter4horizontalPlateau(plat,0))
+#plat=[[None,None,None,{const.COULEUR:const.JAUNE,const.ID:1},{const.COULEUR:const.JAUNE,const.ID:2},{const.COULEUR:const.JAUNE,const.ID:3},{const.COULEUR:const.JAUNE,const.ID:4}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:7}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:8}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:9}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:10}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:11}]]
+#print(detecter4horizontalPlateau(plat,0))
 
 
 
