@@ -48,7 +48,7 @@ def construirePlateau()->list :
         tab.append(ligne)
     return tab
 
-def placerpionPlateau(plateau : list, pion : dict, numCol :int) -> int :
+def placerPionPlateau(plateau : list, pion : dict, numCol :int) -> int :
     """
     fonction qui place un pion dans un plateau à une colonnes numCol
     :param plateau: le plateau de jeu
@@ -56,6 +56,7 @@ def placerpionPlateau(plateau : list, pion : dict, numCol :int) -> int :
     :param numCol: numéro de la colonne où lacher le pion
     :return: le numéro de la ligne où se situe le pion laché, -1 si impossible
     """
+    print(numCol,plateau)
     numLigne=-1
     i=0
     if not type_plateau(plateau):
@@ -64,20 +65,20 @@ def placerpionPlateau(plateau : list, pion : dict, numCol :int) -> int :
         raise TypeError ("placerPionPlateau : Le second paramètre n’est pas un pion")
     if type(numCol)!=int :
         raise TypeError ("placerPionPlateau : Le troisième paramètre n’est pas un entier")
-    if numCol < 0 or numCol >const.NB_COLUMNS :
+    if numCol < 0 or numCol > const.NB_COLUMNS :
         raise ValueError (f" placerPionPlateau : La valeur de la colonne {numCol} n’est pas correcte")
-    while const.NB_LINES-i >0 and numLigne == -1:
-        if plateau[const.NB_LINES-i][numCol] == None:
-            numLigne=const.NB_LINES-i
+    while i<const.NB_LINES and not type_pion(plateau[i][numLigne]):
         i+=1
+        numLigne=i-1
+    print(numLigne)
     return numLigne
 
 def detecter4horizontalPlateau(plateau, numCoul) -> list:
     """
-    Fonction qui retourne les 4 premiers pions étant alignés horizontalement pour chaques lignes
+    Fonction qui retourne les 4 premiers pions d'une certaine couleur étant alignés horizontalement pour chaques lignes
     :param plateau:le plateau de jeu
-    :param numCoul: la couleur des pions sont l'alignement est à tester
-    :return: une liste contenant les premiers pions alignés pour chaques lih=gne si ils éxistent
+    :param numCoul: la couleur des pions dont l'alignement est à tester
+    :return: une liste contenant les premiers pions alignés pour chaque lignes si ils éxistent
     """
     res=[]
     if not type_plateau(plateau):
@@ -101,8 +102,32 @@ def detecter4horizontalPlateau(plateau, numCoul) -> list:
 #plat=[[None,None,None,{const.COULEUR:const.JAUNE,const.ID:1},{const.COULEUR:const.JAUNE,const.ID:2},{const.COULEUR:const.JAUNE,const.ID:3},{const.COULEUR:const.JAUNE,const.ID:4}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:7}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:8}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:9}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:10}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:11}]]
 #print(detecter4horizontalPlateau(plat,0))
 
+def detecter4verticalPlateau(plateau:list, numCoul :int)-> list :
+    """
+    Fonction qui retourne les 4 premiers pions d'une certzinr couleur étant alignés verticalement pour chaques lignes
+    :param plateau: le plateau de jeu
+    :paramnumCoul: le numéro de la couleur des pions dont l'alignement est à tester
+    :return: une liste contenant les premiers pions alignés pour chaque lignes si ils éxistent
+    """
+    res=[]
+    if not type_plateau(plateau):
+        raise TypeError ("detecter4horizontalPlateau : Le premier paramètre ne correspond pas à un plateau")
+    if type(numCoul) != int :
+        raise TypeError ("detecter4horizontalPlateau : le second paramètre n’est pas un entier")
+    if numCoul != 0 and numCoul!=1 :
+        raise ValueError ("détecter4horizontalPlateau : La valeur de la couleur ",numCoul," n’est pas correcte")
+    for col in range(const.NB_COLUMNS):
+        i=0
+        aligne=False
+        while i<const.NB_LINES-3 and aligne==False:
+            if plateau[i][col]!=None and plateau[i+1][col]!=None and plateau[i+2][col]!=None and plateau[i+3][col]!=None and getCouleurPion(plateau[i+1][col]) == getCouleurPion(plateau[i][col]) and getCouleurPion(plateau[i+1][col]) == getCouleurPion(plateau[i+2][col]) and getCouleurPion(plateau[i+2][col]) == getCouleurPion(plateau[i+3][col]) and plateau[i][col][const.COULEUR] == numCoul :
+                aligne=True
+                for u in range(4):
+                    res.append(plateau[i+u][col])
+            i+=1
+    return res
 
-
-
-
+#test 4 vertical
+#plat=[[None,None,None,{const.COULEUR:const.JAUNE,const.ID:1},{const.COULEUR:const.JAUNE,const.ID:2},{const.COULEUR:const.JAUNE,const.ID:3},{const.COULEUR:const.JAUNE,const.ID:4}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:7}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:8}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:9}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:10}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:11}]]
+#print(detecter4verticalPlateau(plat,0))
 

@@ -19,5 +19,6 @@ class TestPlateau(unittest.TestCase):
             for __ in range(2*const.NB_LINES*const.NB_COLUMNS):
                 col = randint(0, const.NB_COLUMNS - 1)
                 places[col] = min(1 + places[col], const.NB_LINES + 1)
+                print(const.NB_LINES - places[col],'A')
                 self.assertEqual(const.NB_LINES - places[col], placerPionPlateau(p, construirePion(const.ROUGE), col))
 
