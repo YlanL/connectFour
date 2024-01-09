@@ -48,7 +48,7 @@ def construirePlateau()->list :
         tab.append(ligne)
     return tab
 
-def placerpinPlateau(plateau : list, pion : dict, numCol :int) -> int :
+def placerpionPlateau(plateau : list, pion : dict, numCol :int) -> int :
     """
     fonction qui place un pion dans un plateau à une colonnes numCol
     :param plateau: le plateau de jeu
@@ -74,10 +74,10 @@ def placerpinPlateau(plateau : list, pion : dict, numCol :int) -> int :
 
 def detecter4horizontalPlateau(plateau, numCoul) -> list:
     """
-
-    :param plateau:
-    :param numCoul:
-    :return:
+    Fonction qui retourne les 4 premiers pions étant alignés horizontalement pour chaques lignes
+    :param plateau:le plateau de jeu
+    :param numCoul: la couleur des pions sont l'alignement est à tester
+    :return: une liste contenant les premiers pions alignés pour chaques lih=gne si ils éxistent
     """
     res=[]
     if not type_plateau(plateau):
