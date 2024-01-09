@@ -111,16 +111,16 @@ def detecter4verticalPlateau(plateau:list, numCoul :int)-> list :
     """
     res=[]
     if not type_plateau(plateau):
-        raise TypeError ("detecter4horizontalPlateau : Le premier paramètre ne correspond pas à un plateau")
+        raise TypeError ("detecter4verticalPlateau : Le premier paramètre ne correspond pas à un plateau")
     if type(numCoul) != int :
-        raise TypeError ("detecter4horizontalPlateau : le second paramètre n’est pas un entier")
+        raise TypeError ("detecter4verticalPlateau : le second paramètre n’est pas un entier")
     if numCoul != 0 and numCoul!=1 :
-        raise ValueError ("détecter4horizontalPlateau : La valeur de la couleur ",numCoul," n’est pas correcte")
+        raise ValueError ("detecter4verticalPlateau : La valeur de la couleur ",numCoul," n’est pas correcte")
     for col in range(const.NB_COLUMNS):
         i=0
         aligne=False
         while i<const.NB_LINES-3 and aligne==False:
-            if plateau[i][col]!=None and plateau[i+1][col]!=None and plateau[i+2][col]!=None and plateau[i+3][col]!=None and getCouleurPion(plateau[i+1][col]) == getCouleurPion(plateau[i][col]) and getCouleurPion(plateau[i+1][col]) == getCouleurPion(plateau[i+2][col]) and getCouleurPion(plateau[i+2][col]) == getCouleurPion(plateau[i+3][col]) and plateau[i][col][const.COULEUR] == numCoul :
+            if plateau[i][col]!=None and plateau[i+1][col]!=None and plateau[i+2][col]!=None and plateau[i+3][col]!=None and getCouleurPion(plateau[i][col]) == numCoul and getCouleurPion(plateau[i+1][col]) == numCoul and getCouleurPion(plateau[i+2][col]) == numCoul and getCouleurPion(plateau[i+3][col]) == numCoul :
                 aligne=True
                 for u in range(4):
                     res.append(plateau[i+u][col])
@@ -131,3 +131,62 @@ def detecter4verticalPlateau(plateau:list, numCoul :int)-> list :
 #plat=[[None,None,None,{const.COULEUR:const.JAUNE,const.ID:1},{const.COULEUR:const.JAUNE,const.ID:2},{const.COULEUR:const.JAUNE,const.ID:3},{const.COULEUR:const.JAUNE,const.ID:4}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:7}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:8}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:9}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:10}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:11}]]
 #print(detecter4verticalPlateau(plat,0))
 
+def detecter4diagonaleDirectePlateau(plateau,numCoul:int)->list:
+    """
+    Fonction qui détermine les pions d'une couleur aligné sur une diagonale direct
+    :param plateau: le plateau de jeu
+    :param numCoul:le numéro de la couleur des pions
+    :return: une liste contenant les pions alignés selon une diagonale direct
+    """
+    res = []
+    if not type_plateau(plateau):
+        raise TypeError("detecter4diagonaleDirectePlateau : Le premier paramètre ne correspond pas à un plateau")
+    if type(numCoul) != int:
+        raise TypeError("detecter4diagonaleDirectePlateau : le second paramètre n’est pas un entier")
+    if numCoul != 0 and numCoul != 1:
+        raise ValueError("détecter4diagonaleDirectePlateau : La valeur de la couleur ", numCoul, " n’est pas correcte")
+    for ligne in range(const.NB_LINES-3):
+        i=0
+        diag=False
+        while i < const.NB_COLUMNS-3 and diag == False :
+            if plateau[ligne][i]!=None and plateau[ligne+1][i+1]!=None and plateau[ligne+2][i+2]!=None and plateau[ligne+3][i+3]!=None and getCouleurPion(plateau[ligne][i]) == numCoul and getCouleurPion(plateau[ligne+1][i+1]) == numCoul and getCouleurPion(plateau[ligne+2][i+2]) == numCoul and getCouleurPion(plateau[ligne+3][i+3]) == numCoul :
+                diag=True
+                for u in range(4):
+                    res.append(plateau[ligne+u][i+u])
+            i+=1
+    return res
+
+#test 4 diagonaldirecte
+#pion={const.COULEUR:const.ROUGE,const.ID:None}
+#plat=[[pion,None,pion,None,None,None,None],[None, {const.COULEUR:const.ROUGE,const.ID:4},pion,pion,None,None,None],[None,None,pion,None,pion,None,None],[None,None,None,pion,None,pion,None],[None,None,None,None,pion,None,None],[None,None,None,None,None,None,None]]
+#print(detecter4diagonaleDirectePlateau(plat,1))
+
+def detecter4diagonaleIndirectePlateau(plateau,numCoul:int)->list:
+    """
+    Fonction qui détermine les pions d'une couleur aligné sur une diagonale indirect
+    :param plateau: le plateau de jeu
+    :param numCoul:le numéro de la couleur des pions
+    :return: une liste contenant les pions alignés selon une diagonale indirect
+    """
+    res = []
+    if not type_plateau(plateau):
+        raise TypeError("detecter4diagonaleIndirectePlateau : Le premier paramètre ne correspond pas à un plateau")
+    if type(numCoul) != int:
+        raise TypeError("detecter4diagonaleIndirectePlateau : le second paramètre n’est pas un entier")
+    if numCoul != 0 and numCoul != 1:
+        raise ValueError("detecter4diagonaleIndirectePlateau : La valeur de la couleur ", numCoul, " n’est pas correcte")
+    for ligne in range(3,const.NB_LINES):
+        i=0
+        diag=False
+        while i < const.NB_COLUMNS-3 and diag == False :
+            if plateau[ligne][i]!=None and plateau[ligne-1][i+1]!=None and plateau[ligne-2][i+2]!=None and plateau[ligne-3][i+3]!=None and getCouleurPion(plateau[ligne][i]) == numCoul and getCouleurPion(plateau[ligne-1][i+1]) == numCoul and getCouleurPion(plateau[ligne-2][i+2]) == numCoul and getCouleurPion(plateau[ligne-3][i+3]) == numCoul :
+                diag = True
+                for u in range(4):
+                    res.append(plateau[ligne-u][i+u])
+            i+=1
+    return res
+
+#test 4 diagonaldirecte
+#pion={const.COULEUR:const.ROUGE,const.ID:None}
+#plat=[[None,None,None,pion,None,None,pion],[None, None,{const.COULEUR:const.ROUGE,const.ID:4},None,None,pion,None],[None,pion,pion,None,pion,None,None],[pion,None,None,pion,None,None,None],[None,None,pion,None,None,None,None],[None,None,None,None,None,None,None]]
+#print(detecter4diagonaleIndirectePlateau(plat,1))
