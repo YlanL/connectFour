@@ -190,3 +190,49 @@ def detecter4diagonaleIndirectePlateau(plateau,numCoul:int)->list:
 #pion={const.COULEUR:const.ROUGE,const.ID:None}
 #plat=[[None,None,None,pion,None,None,pion],[None, None,{const.COULEUR:const.ROUGE,const.ID:4},None,None,pion,None],[None,pion,pion,None,pion,None,None],[pion,None,None,pion,None,None,None],[None,None,pion,None,None,None,None],[None,None,None,None,None,None,None]]
 #print(detecter4diagonaleIndirectePlateau(plat,1))
+
+def getPionsGagnantsPlateau(plateau)->list:
+    """
+    Fonction qui détermine les pions qui ont une position de victoiresur le plateau
+    :param plateau: le plateau de jeu
+    :return:liste des pions
+    """
+    if not type_plateau(plateau):
+        raise TypeError("getPionsGagnatsPlateau: Le premier paramètre ne correspond pas à un plateau")
+    res=[]
+    for coul in range(len(const.COULEURS)):
+        res+=detecter4horizontalPlateau(plateau,coul)
+        res+=detecter4verticalPlateau(plateau,coul)
+        res+=detecter4diagonaleDirectePlateau(plateau,coul)
+        res+=detecter4diagonaleIndirectePlateau(plateau,coul)
+    return res
+#test 4 diagonaldirecte
+#pion={const.COULEUR:const.ROUGE,const.ID:None}
+#plat=[[None,None,None,pion,None,None,pion],[None, None,{const.COULEUR:const.ROUGE,const.ID:4},None,None,pion,None],[None,pion,pion,None,pion,None,None],[pion,None,None,pion,None,None,None],[None,None,pion,None,None,None,None],[None,None,None,None,None,None,None]]
+#print(getPionsGagnantsPlateau(plat))
+
+def isRempliPlateau(plateau)->bool :
+    """
+    Fonction qui détermine si le plateau est rempli de pion ou non
+    :param plateau: le plateau de jeu
+    :return: un booléen selon si le plateau est rempli (True) ou si il ne l'est pas "False"
+    """
+    if not type_plateau(plateau):
+        raise TypeError(" isRempliPlateau : Le paramètre n’est pas un plateau ")
+    rempli = True
+    i=0
+    while i < const.NB_LINES and rempli == True :
+        u=0
+        while u < const.NB_COLUMNS and rempli == True :
+            if not type_pion(plateau[i][u]) :
+                rempli = False
+            u+=1
+        i+=1
+    return rempli
+#test rempli
+#pion={const.COULEUR:const.ROUGE,const.ID:None}
+#l=[pion,pion,pion,pion,pion,pion,pion]
+#plat=[l,l,l,l,l,l]
+#plat2=[l,l,l,l,l,[None,None,None,None,None,None,None]]
+#print(isRempliPlateau(plat),isRempliPlateau(plat2))
+
