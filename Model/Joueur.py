@@ -79,3 +79,12 @@ def getPlacerPionJoueur(joueur):
     return joueur[const.PLACER_PION]
 
 
+def getPionJoueur(joueur):
+    """
+    Fonction qui créé un pion en fonction de la couleur du joueur
+    :param joueur: le joueur
+    :return: le pion
+    """
+    if not type_joueur(joueur) :
+        raise TypeError ("getPionJoueur : Le paramètre ne correspond pas à un joueur")
+    return construirePion(joueur[const.COULEUR])
