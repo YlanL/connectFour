@@ -34,19 +34,18 @@ def type_plateau(plateau: list) -> bool:
         return False
     return True
 
-def construirePlateau()->list :
+def construirePlateau() -> list:
+    """Fonction permettant de construire un pion
+
+    :return: Retourne une liste de liste sur NB_LINES x NB_COLUMNS contenant des None
     """
-    Fonction qui construit le plateau de jeu
-    :return:
-    """
-    tab=[]
-    ligne=[]
-    #le plateau possède un même nombre de ligne pour chaques colonnes
-    for i in range(const.NB_COLUMNS):
-        ligne.append(None)
+    plat = []
     for i in range(const.NB_LINES):
-        tab.append(ligne)
-    return tab
+        ligne = []
+        for j in range(const.NB_COLUMNS):
+            ligne.append(None)
+        plat.append(ligne)
+    return plat
 
 def placerPionPlateau(plateau : list, pion : dict, numCol :int) -> int :
     """
@@ -65,12 +64,14 @@ def placerPionPlateau(plateau : list, pion : dict, numCol :int) -> int :
         raise TypeError ("placerPionPlateau : Le second paramètre n’est pas un pion")
     if type(numCol)!=int :
         raise TypeError ("placerPionPlateau : Le troisième paramètre n’est pas un entier")
-    if numCol < 0 or numCol > const.NB_COLUMNS :
+    if numCol < 0 or numCol >= const.NB_COLUMNS :
         raise ValueError (f" placerPionPlateau : La valeur de la colonne {numCol} n’est pas correcte")
-    while i<const.NB_LINES and not type_pion(plateau[i][numLigne]):
+    while i<const.NB_LINES and not (type_pion(plateau[i][numCol])):
+        numLigne = i
         i+=1
-        numLigne=i-1
     print(numLigne)
+    if numLigne > -1 :
+        plateau[numLigne][numCol]=pion
     return numLigne
 
 def detecter4horizontalPlateau(plateau, numCoul) -> list:
@@ -187,10 +188,10 @@ def detecter4diagonaleIndirectePlateau(plateau,numCoul:int)->list:
     return res
 
 #test 4 diagonaldirecte
-#pion={const.COULEUR:const.ROUGE,const.ID:None}
+pion={const.COULEUR:const.ROUGE,const.ID:None}
 #plat=[[None,None,None,pion,None,None,pion],[None, None,{const.COULEUR:const.ROUGE,const.ID:4},None,None,pion,None],[None,pion,pion,None,pion,None,None],[pion,None,None,pion,None,None,None],[None,None,pion,None,None,None,None],[None,None,None,None,None,None,None]]
-#print(detecter4diagonaleIndirectePlateau(plat,1))
-
+plat=[[None,None,None,None,{const.COULEUR:const.ROUGE,const.ID:1},{const.COULEUR:const.ROUGE,const.ID:10},None],[None,None,None,{const.COULEUR:const.ROUGE,const.ID:2},{const.COULEUR:const.ROUGE,const.ID:10},None,None],[None,None,{const.COULEUR:const.ROUGE,const.ID:3},{const.COULEUR:const.ROUGE,const.ID:12},None,None,None],[None,{const.COULEUR:const.ROUGE,const.ID:4},{const.COULEUR:const.ROUGE,const.ID:13},None,None,None,None],[{const.COULEUR:const.ROUGE,const.ID:5},{const.COULEUR:const.ROUGE,const.ID:14},None,None,None,None,None],[{const.COULEUR:const.ROUGE,const.ID:15},None,None,None,None,None,None]]
+print(len(detecter4diagonaleIndirectePlateau(plat,1)))
 def getPionsGagnantsPlateau(plateau)->list:
     """
     Fonction qui détermine les pions qui ont une position de victoiresur le plateau
@@ -235,4 +236,5 @@ def isRempliPlateau(plateau)->bool :
 #plat=[l,l,l,l,l,l]
 #plat2=[l,l,l,l,l,[None,None,None,None,None,None,None]]
 #print(isRempliPlateau(plat),isRempliPlateau(plat2))
+
 
