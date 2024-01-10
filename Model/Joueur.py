@@ -77,3 +77,5 @@ def getPlacerPionJoueur(joueur):
     if not type_joueur(joueur):
         raise TypeError ("getPlacerPionJoueur : le paramètre ne correspond pas à un joueur")
     return joueur[const.PLACER_PION]
+
+
