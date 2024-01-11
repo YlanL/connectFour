@@ -111,3 +111,16 @@ def setPlacerPionJoueur(joueur, fonct) -> None:
     joueur[const.PLACER_PION]=fonct
     return None
 
+def _placerPionJoueur(joueur)->int:
+    rempli = False
+    alea=ceil(const.NB_COLUMNS*random())
+    while rempli == False :
+        if plateau[0][alea] == None :
+            rempli = True
+        else :
+            alea = ceil(const.NB_COLUMNS * random())
+    return alea
+
+def initialiserIAJoueur(joueur,booleen:bool)->None:
+    joueur[const.PLACER_PION]=setPlacerPionJoueur(joueur,_placerPionJoueur(joueur))
+    return None
