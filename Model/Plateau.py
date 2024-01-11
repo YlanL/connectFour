@@ -132,6 +132,7 @@ def detecter4verticalPlateau(plateau:list, numCoul :int)-> list :
 #plat=[[None,None,None,{const.COULEUR:const.JAUNE,const.ID:1},{const.COULEUR:const.JAUNE,const.ID:2},{const.COULEUR:const.JAUNE,const.ID:3},{const.COULEUR:const.JAUNE,const.ID:4}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:7}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:8}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:9}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:10}],[None,None,None,None,None,None,{const.COULEUR:const.JAUNE,const.ID:11}]]
 #print(detecter4verticalPlateau(plat,0))
 
+
 def detecter4diagonaleDirectePlateau(plateau,numCoul:int)->list:
     """
     Fonction qui détermine les pions d'une couleur aligné sur une diagonale direct
@@ -147,14 +148,10 @@ def detecter4diagonaleDirectePlateau(plateau,numCoul:int)->list:
     if numCoul != 0 and numCoul != 1:
         raise ValueError("détecter4diagonaleDirectePlateau : La valeur de la couleur ", numCoul, " n’est pas correcte")
     for ligne in range(const.NB_LINES-3):
-        i=0
-        diag=False
-        while i < const.NB_COLUMNS-3 and diag == False :
+        for i in range(const.NB_COLUMNS-3) :
             if plateau[ligne][i]!=None and plateau[ligne+1][i+1]!=None and plateau[ligne+2][i+2]!=None and plateau[ligne+3][i+3]!=None and getCouleurPion(plateau[ligne][i]) == numCoul and getCouleurPion(plateau[ligne+1][i+1]) == numCoul and getCouleurPion(plateau[ligne+2][i+2]) == numCoul and getCouleurPion(plateau[ligne+3][i+3]) == numCoul and plateau[ligne][i] not in res and plateau[ligne+1][i+1] not in res and plateau[ligne+2][i+2] not in res and plateau[ligne+3][i+3] not in res:
-                diag=True
                 for u in range(4):
                     res.append(plateau[ligne+u][i+u])
-            i+=1
     return res
 
 #test 4 diagonaldirecte
@@ -177,22 +174,17 @@ def detecter4diagonaleIndirectePlateau(plateau,numCoul:int)->list:
     if numCoul != 0 and numCoul != 1:
         raise ValueError("detecter4diagonaleIndirectePlateau : La valeur de la couleur ", numCoul, " n’est pas correcte")
     for ligne in range(3,const.NB_LINES):
-        i=0
-        diag=False
-        while i < const.NB_COLUMNS-3 and diag == False :
-            print(ligne,i,plateau[ligne][i])
+        for i in range(const.NB_COLUMNS-3):
             if plateau[ligne][i]!=None and plateau[ligne-1][i+1]!=None and plateau[ligne-2][i+2]!=None and plateau[ligne-3][i+3]!=None and getCouleurPion(plateau[ligne][i]) == numCoul and getCouleurPion(plateau[ligne-1][i+1]) == numCoul and getCouleurPion(plateau[ligne-2][i+2]) == numCoul and getCouleurPion(plateau[ligne-3][i+3]) == numCoul and plateau[ligne][i] not in res and plateau[ligne-1][i+1] not in res and plateau[ligne-2][i+2] not in res and plateau[ligne-3][i+3] not in res:
-                diag = True
                 for u in range(4):
                     res.append(plateau[ligne-u][i+u])
             print(res)
-            i+=1
     return res
 
-#test 4 diagonaldirecte
+#test 4 diagonalIndirecte
 pion={const.COULEUR:const.ROUGE,const.ID:None}
 #plat=[[None,None,None,pion,None,None,pion],[None, None,{const.COULEUR:const.ROUGE,const.ID:4},None,None,pion,None],[None,pion,pion,None,pion,None,None],[pion,None,None,pion,None,None,None],[None,None,pion,None,None,None,None],[None,None,None,None,None,None,None]]
-#plat=[[None,None,None,None,{const.COULEUR:const.ROUGE,const.ID:1},{const.COULEUR:const.ROUGE,const.ID:10},None],[None,None,None,{const.COULEUR:const.ROUGE,const.ID:2},{const.COULEUR:const.ROUGE,const.ID:10},None,None],[None,None,{const.COULEUR:const.ROUGE,const.ID:3},{const.COULEUR:const.ROUGE,const.ID:12},None,None,None],[None,{const.COULEUR:const.ROUGE,const.ID:4},{const.COULEUR:const.ROUGE,const.ID:13},None,None,None,None],[{const.COULEUR:const.ROUGE,const.ID:5},{const.COULEUR:const.ROUGE,const.ID:14},None,None,None,None,None],[{const.COULEUR:const.ROUGE,const.ID:15},None,None,None,None,None,None]]
+#plat=[[None,None,None,None,{const.COULEUR:const.ROUGE,const.ID:1},{const.COULEUR:const.ROUGE,const.ID:10},None],[None,None,None,{const.COULEUR:const.ROUGE,const.ID:2},{const.COULEUR:const.ROUGE,const.ID:11},None,None],[None,None,{const.COULEUR:const.ROUGE,const.ID:3},{const.COULEUR:const.ROUGE,const.ID:12},None,None,None],[None,{const.COULEUR:const.ROUGE,const.ID:4},{const.COULEUR:const.ROUGE,const.ID:13},None,None,None,None],[{const.COULEUR:const.ROUGE,const.ID:5},{const.COULEUR:const.ROUGE,const.ID:14},None,None,None,None,None],[{const.COULEUR:const.ROUGE,const.ID:15},None,None,None,None,None,None]]
 #print(len(detecter4diagonaleIndirectePlateau(plat,1)))
 def getPionsGagnantsPlateau(plateau)->list:
     """
