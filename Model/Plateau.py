@@ -92,7 +92,7 @@ def detecter4horizontalPlateau(plateau, numCoul) -> list:
         aligne=False
         i=0
         while i < const.NB_COLUMNS-3 and aligne == False :
-            if plateau[ligne][i]!=None and plateau[ligne][i+1]!=None and plateau[ligne][i+2]!=None and plateau[ligne][i+3]!=None and getCouleurPion(plateau[ligne][i+1]) == getCouleurPion(plateau[ligne][i]) and getCouleurPion(plateau[ligne][i+1]) == getCouleurPion(plateau[ligne][i+2]) and getCouleurPion(plateau[ligne][i+2]) == getCouleurPion(plateau[ligne][i+3]) and plateau[ligne][i][const.COULEUR] == numCoul :
+            if plateau[ligne][i]!=None and plateau[ligne][i+1]!=None and plateau[ligne][i+2]!=None and plateau[ligne][i+3]!=None and getCouleurPion(plateau[ligne][i]) == numCoul and getCouleurPion(plateau[ligne][i+1]) == numCoul and getCouleurPion(plateau[ligne][i+2]) == numCoul and getCouleurPion(plateau[ligne][i+2]) == numCoul :
                 aligne=True
                 for u in range (4):
                     res.append(plateau[ligne][i+u])
@@ -105,7 +105,7 @@ def detecter4horizontalPlateau(plateau, numCoul) -> list:
 
 def detecter4verticalPlateau(plateau:list, numCoul :int)-> list :
     """
-    Fonction qui retourne les 4 premiers pions d'une certzinr couleur étant alignés verticalement pour chaques lignes
+    Fonction qui retourne les 4 premiers pions d'une certaine couleur étant alignés verticalement pour chaques lignes
     :param plateau: le plateau de jeu
     :paramnumCoul: le numéro de la couleur des pions dont l'alignement est à tester
     :return: une liste contenant les premiers pions alignés pour chaque lignes si ils éxistent
@@ -231,4 +231,42 @@ def isRempliPlateau(plateau)->bool :
 #plat2=[l,l,l,l,l,[None,None,None,None,None,None,None]]
 #print(isRempliPlateau(plat),isRempliPlateau(plat2))
 
+def placerPionLignePlateau(plateau : list, pion :dict , numLigne , left : bool) -> tuple :
+    """
+    Fonction qui place un pion sur une extrémité de ligne
+    :param plateau: le plateau de jeu
+    :param pion: le pions à placer sur le plateau
+    :param numLigne:le numéro de la ligne où placer le pion
+    :left: un booléen qui correspond au coté où le pion est inséré
+    :return: les pions qui ont été poussés
+    """
+    caseVide=const.NB_COLUMNS
+    i=0
+    res=[]
+    last=None
+    # faire un if c'est tout a gauche ou otut a droite avec R en dessous on fait un placer pion en haut puis un else avec le reste du code en dessous
+    if left :
+        res = res + [pion]
+        while i<const.NB_COLUMNS and caseVide == const.NB_COLUMNS :
+            if not type_pion(plateau[numLigne][i]):
+                caseVide=i
+            i+=1
+        for u in range(caseVide):
+            res = res + [plateau[numLigne][u]]
+        if numLigne != 0 and not type_pion(plateau[numLigne - 1][i-1]) and type_pion(plateau[numLigne][0]):
+            last = ([placerPionPlateau(plateau, plateau[numLigne][caseVide - 1], caseVide)])
+    else :
+        res = res + [pion]
+        while const.NB_COLUMNS-i-1>=0 and caseVide == const.NB_COLUMNS :
+            if not type_pion(plateau[numLigne][const.NB_COLUMNS-i-1]):
+                caseVide=i
+            i+=1
+        print(const.NB_COLUMNS-1-caseVide)
+        for u in range (caseVide):
+            res = res + [plateau[numLigne][const.NB_COLUMNS-1-u]]
+            print (u,res)
+        if numLigne!=0 and not type_pion(plateau[numLigne-1][const.NB_COLUMNS-i-1-1]) and type_pion(plateau[numLigne][const.NB_COLUMNS-1]):
+            last = placerPionPlateau(plateau,plateau[numLigne][const.NB_COLUMNS-caseVide],caseVide)
+    print (res,last)
+    return (res,last)
 
