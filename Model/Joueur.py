@@ -105,6 +105,7 @@ def setPlateauJoueur(joueur,plateau) -> None:
     return None
 
 def setPlacerPionJoueur(joueur, fonct) -> None:
+    print(type(fonct))
     if not type_joueur(joueur) :
         raise TypeError ("setplacerPionJoueur : Le paramètre ne correspond pas à un joueur")
     if not callable(fonct) :
@@ -113,15 +114,15 @@ def setPlacerPionJoueur(joueur, fonct) -> None:
     return None
 
 def _placerPionJoueur(joueur)->int:
-    rempli = False
-    alea=round(const.NB_COLUMNS-1*random())
-    while rempli == False :
-        if plateau[0][alea] == None :
-            rempli = True
-        else :
-            alea = round(const.NB_COLUMNS * random())
+    alea=round((const.NB_COLUMNS-1)*random.random())
+    bon=False
+    while bon == False :
+        if joueur[const.PLATEAU][0][alea] == None :
+            bon = True
+        alea=round((const.NB_COLUMNS-1)*random.random())
     return alea
 
 def initialiserIAJoueur(joueur,booleen:bool)->None:
-    joueur[const.PLACER_PION]=setPlacerPionJoueur(joueur,_placerPionJoueur(joueur))
+    setPlacerPionJoueur(joueur,_placerPionJoueur)
     return None
+
