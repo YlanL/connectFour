@@ -1,6 +1,7 @@
 from Model.Constantes import *
 from Model.Pion import *
 from Model.Plateau import *
+import random
 
 
 
@@ -113,12 +114,12 @@ def setPlacerPionJoueur(joueur, fonct) -> None:
 
 def _placerPionJoueur(joueur)->int:
     rempli = False
-    alea=ceil(const.NB_COLUMNS*random())
+    alea=round(const.NB_COLUMNS-1*random())
     while rempli == False :
         if plateau[0][alea] == None :
             rempli = True
         else :
-            alea = ceil(const.NB_COLUMNS * random())
+            alea = round(const.NB_COLUMNS * random())
     return alea
 
 def initialiserIAJoueur(joueur,booleen:bool)->None:
