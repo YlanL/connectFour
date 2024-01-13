@@ -254,16 +254,20 @@ def placerPionLignePlateau(plateau : list, pion :dict , numLigne , left : bool) 
             i+=1
         for u in range(caseVide):
             res = res + [plateau[numLigne][u]]
-        if numLigne != 0 and not type_pion(plateau[numLigne - 1][i-1]) and type_pion(plateau[numLigne][0]) and i < const.NB_COLUMNS:
-            last = (placerPionPlateau(plateau, plateau[numLigne][caseVide - 1], caseVide))
-        elif caseVide == const.NB_COLUMNS:
-            last = const.NB_LINES
         for u in range(const.NB_COLUMNS):
             if u >= len(res):
                 ligne += [None]
             else :
                 ligne += [res[u]]
-        plateau[numLigne] = ligne
+        if numLigne != const.NB_LINES-1 and not type_pion(plateau[numLigne - 1][caseVide]) and caseVide < const.NB_COLUMNS :
+            if len(res)==1:
+                last = placerPionPlateau(plateau,pion,0)
+                ligne[0]=None
+            else:
+                last = (placerPionPlateau(plateau, plateau[numLigne][caseVide - 1], caseVide))
+                ligne[caseVide]=None
+        elif caseVide == const.NB_COLUMNS:
+            last = const.NB_LINES
     else:
         while const.NB_COLUMNS-i-1>=0 and caseVide == const.NB_COLUMNS :
             if not type_pion(plateau[numLigne][const.NB_COLUMNS-i-1]):
@@ -271,17 +275,23 @@ def placerPionLignePlateau(plateau : list, pion :dict , numLigne , left : bool) 
             i+=1
         for u in range (caseVide):
             res = res + [plateau[numLigne][const.NB_COLUMNS-1-u]]
-        if numLigne!=const.NB_LINES-1 and not type_pion(plateau[numLigne-1][const.NB_COLUMNS-i-1-1]) and type_pion(plateau[numLigne][const.NB_COLUMNS-1]) and i < const.NB_COLUMNS:
-            last = placerPionPlateau(plateau,plateau[numLigne][const.NB_COLUMNS-caseVide],caseVide)
-        elif caseVide == const.NB_COLUMNS:
-            last = const.NB_LINES
-        print(caseVide)
         for u in range (const.NB_COLUMNS-1,-1,-1):
+            print(u)
             if u >= len(res):
                 ligne += [None]
             else :
                 ligne += [res[u]]
+        if numLigne!=const.NB_LINES-1 and not type_pion(plateau[numLigne-1][const.NB_COLUMNS-caseVide-1]) and caseVide < const.NB_COLUMNS:
+            if len(res)==1:
+                last = placerPionPlateau(plateau,pion,const.NB_COLUMNS-1)
+                ligne[const.NB_COLUMNS-1]=None
+            else:
+                last = placerPionPlateau(plateau,plateau[numLigne][const.NB_COLUMNS-caseVide],caseVide)
+                ligne[const.NB_COLUMNS-1-caseVide]=None
+        elif caseVide == const.NB_COLUMNS:
+            last = const.NB_LINES
     plateau[numLigne] = ligne
+    print("plateau", plateau)
     return (res,last)
 
 def encoderPlateau(plateau)->str:
@@ -293,8 +303,8 @@ def encoderPlateau(plateau)->str:
     if not type_plateau(plateau):
         raise TypeError("encoderPlateau : le paramètre ne correspond pas à un plateau.")
     res=""
-    for i in range(const.NB_COLUMNS):
-        for u in range(const.NB_LINES):
+    for i in range(const.NB_LINES):
+        for u in range(const.NB_COLUMNS):
             if not type_pion(plateau[i][u]):
                 res+="_"
             else:
@@ -304,4 +314,14 @@ def encoderPlateau(plateau)->str:
                     res += "R"
     return res
 
-
+def isPatPlateau(plateau,histogramme)->bool:
+    res = False
+    var=encoderPlateau(plateau)
+    if var not in histogramme:
+        histogramme[var]=1
+    else:
+        if histogramme[var]==4: # car on aura la 5e apparition de la même configuration
+            histogramme[var]+=1
+        else:
+            res = True
+    return res
