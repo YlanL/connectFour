@@ -55,7 +55,6 @@ def placerPionPlateau(plateau : list, pion : dict, numCol :int) -> int :
     :param numCol: numéro de la colonne où lacher le pion
     :return: le numéro de la ligne où se situe le pion laché, -1 si impossible
     """
-    print(numCol,plateau)
     numLigne=-1
     i=0
     if not type_plateau(plateau):
@@ -69,7 +68,6 @@ def placerPionPlateau(plateau : list, pion : dict, numCol :int) -> int :
     while i<const.NB_LINES and not (type_pion(plateau[i][numCol])):
         numLigne = i
         i+=1
-    print(numLigne)
     if numLigne > -1 :
         plateau[numLigne][numCol]=pion
     return numLigne
@@ -187,7 +185,6 @@ pion={const.COULEUR:const.ROUGE,const.ID:None}
 #plat=[[None,None,None,None,{const.COULEUR:const.ROUGE,const.ID:1},{const.COULEUR:const.ROUGE,const.ID:10},None],[None,None,None,{const.COULEUR:const.ROUGE,const.ID:2},{const.COULEUR:const.ROUGE,const.ID:11},None,None],[None,None,{const.COULEUR:const.ROUGE,const.ID:3},{const.COULEUR:const.ROUGE,const.ID:12},None,None,None],[None,{const.COULEUR:const.ROUGE,const.ID:4},{const.COULEUR:const.ROUGE,const.ID:13},None,None,None,None],[{const.COULEUR:const.ROUGE,const.ID:5},{const.COULEUR:const.ROUGE,const.ID:14},None,None,None,None,None],[{const.COULEUR:const.ROUGE,const.ID:15},None,None,None,None,None,None]]
 #print(len(detecter4diagonaleIndirectePlateau(plat,1)))
 def getPionsGagnantsPlateau(plateau)->list:
-    print(plateau,type_plateau(plateau))
     """
     Fonction qui détermine les pions qui ont une position de victoiresur le plateau
     :param plateau: le plateau de jeu
@@ -291,7 +288,6 @@ def placerPionLignePlateau(plateau : list, pion :dict , numLigne , left : bool) 
         elif caseVide == const.NB_COLUMNS:
             last = const.NB_LINES
     plateau[numLigne] = ligne
-    print("plateau", plateau)
     return (res,last)
 
 def encoderPlateau(plateau)->str:
