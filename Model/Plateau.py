@@ -284,4 +284,24 @@ def placerPionLignePlateau(plateau : list, pion :dict , numLigne , left : bool) 
     plateau[numLigne] = ligne
     return (res,last)
 
-def
+def encoderPlateau(plateau)->str:
+    """
+    Fonction qui encode un plateau en forme textuel
+    :param plateau: plateau
+    :return: le plateau encodé
+    """
+    if not type_plateau(plateau):
+        raise TypeError("encoderPlateau : le paramètre ne correspond pas à un plateau.")
+    res=""
+    for i in range(const.NB_COLUMNS):
+        for u in range(const.NB_LINES):
+            if not type_pion(plateau[i][u]):
+                res+="_"
+            else:
+                if getCouleurPion(plateau[i][u])==0:
+                    res += "J"
+                else :
+                    res += "R"
+    return res
+
+
