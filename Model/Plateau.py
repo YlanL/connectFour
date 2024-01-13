@@ -48,6 +48,7 @@ def construirePlateau() -> list:
     return plat
 
 def placerPionPlateau(plateau : list, pion : dict, numCol :int) -> int :
+    print(pion,"placerpionplateau")
     """
     fonction qui place un pion dans un plateau à une colonnes numCol
     :param plateau: le plateau de jeu
@@ -92,7 +93,7 @@ def detecter4horizontalPlateau(plateau, numCoul) -> list:
         aligne=False
         i=0
         while i < const.NB_COLUMNS-3 and aligne == False :
-            if plateau[ligne][i]!=None and plateau[ligne][i+1]!=None and plateau[ligne][i+2]!=None and plateau[ligne][i+3]!=None and getCouleurPion(plateau[ligne][i]) == numCoul and getCouleurPion(plateau[ligne][i+1]) == numCoul and getCouleurPion(plateau[ligne][i+2]) == numCoul and getCouleurPion(plateau[ligne][i+2]) == numCoul :
+            if plateau[ligne][i]!=None and plateau[ligne][i+1]!=None and plateau[ligne][i+2]!=None and plateau[ligne][i+3]!=None and getCouleurPion(plateau[ligne][i]) == numCoul and getCouleurPion(plateau[ligne][i+1]) == numCoul and getCouleurPion(plateau[ligne][i+2]) == numCoul and getCouleurPion(plateau[ligne][i+3]) == numCoul :
                 aligne=True
                 for u in range (4):
                     res.append(plateau[ligne][i+u])
@@ -193,7 +194,7 @@ def getPionsGagnantsPlateau(plateau)->list:
     :return:liste des pions
     """
     if not type_plateau(plateau):
-        raise TypeError("getPionsGagnatsPlateau: Le premier paramètre ne correspond pas à un plateau")
+        raise TypeError("getPionsGagnantsPlateau: Le premier paramètre ne correspond pas à un plateau")
     res=[]
     for coul in range(len(const.COULEURS)):
         res+=detecter4horizontalPlateau(plateau,coul)
@@ -244,29 +245,42 @@ def placerPionLignePlateau(plateau : list, pion :dict , numLigne , left : bool) 
     i=0
     res=[]
     last=None
-    # faire un if c'est tout a gauche ou otut a droite avec R en dessous on fait un placer pion en haut puis un else avec le reste du code en dessous
+    ligne=[]
+    res = res + [pion]
     if left :
-        res = res + [pion]
         while i<const.NB_COLUMNS and caseVide == const.NB_COLUMNS :
             if not type_pion(plateau[numLigne][i]):
                 caseVide=i
             i+=1
         for u in range(caseVide):
             res = res + [plateau[numLigne][u]]
-        if numLigne != 0 and not type_pion(plateau[numLigne - 1][i-1]) and type_pion(plateau[numLigne][0]):
-            last = ([placerPionPlateau(plateau, plateau[numLigne][caseVide - 1], caseVide)])
-    else :
-        res = res + [pion]
+        if numLigne != 0 and not type_pion(plateau[numLigne - 1][i-1]) and type_pion(plateau[numLigne][0]) and i < const.NB_COLUMNS:
+            last = (placerPionPlateau(plateau, plateau[numLigne][caseVide - 1], caseVide))
+        elif caseVide == const.NB_COLUMNS:
+            last = const.NB_LINES
+        for u in range(const.NB_COLUMNS):
+            if u >= len(res):
+                ligne += [None]
+            else :
+                ligne += [res[u]]
+    else : #erreur qd ligne est pleine et qu'on pousse
         while const.NB_COLUMNS-i-1>=0 and caseVide == const.NB_COLUMNS :
             if not type_pion(plateau[numLigne][const.NB_COLUMNS-i-1]):
                 caseVide=i
             i+=1
-        print(const.NB_COLUMNS-1-caseVide)
         for u in range (caseVide):
             res = res + [plateau[numLigne][const.NB_COLUMNS-1-u]]
-            print (u,res)
-        if numLigne!=0 and not type_pion(plateau[numLigne-1][const.NB_COLUMNS-i-1-1]) and type_pion(plateau[numLigne][const.NB_COLUMNS-1]):
+        if numLigne!=const.NB_LINES-1 and not type_pion(plateau[numLigne-1][const.NB_COLUMNS-i-1-1]) and type_pion(plateau[numLigne][const.NB_COLUMNS-1]) and i < const.NB_COLUMNS:
             last = placerPionPlateau(plateau,plateau[numLigne][const.NB_COLUMNS-caseVide],caseVide)
-    print (res,last)
+        elif caseVide == const.NB_COLUMNS:
+            last = const.NB_LINES
+        print(caseVide)
+        for u in range (const.NB_COLUMNS-1,-1,-1):
+            if u >= len(res):
+                ligne += [None]
+            else :
+                ligne += [res[u]]
+    plateau[numLigne] = ligne
     return (res,last)
+# faire en sorte que quand on place en extrémité et que en dessous il y a rien, ca tombe.
 
