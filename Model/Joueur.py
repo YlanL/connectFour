@@ -1,6 +1,7 @@
 from Model.Constantes import *
 from Model.Pion import *
 from Model.Plateau import *
+from Model.IAJoueur import *
 import random
 
 
@@ -123,7 +124,8 @@ def _placerPionJoueur(joueur)->int:
     return alea
 
 def initialiserIAJoueur(joueur,booleen:bool)->None:
-    setPlacerPionJoueur(joueur,_placerPionJoueur)
+    setPlacerPionJoueur(joueur,placerPionJoueurIA)
+#pour accéder à l'IA stupide, il faut remplacer placerPionJoueurIA par _placerPionJoueur et vice versa
     return None
 
 def getModeEtenduJoueur(joueur)->bool:
