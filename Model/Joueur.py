@@ -126,3 +126,13 @@ def initialiserIAJoueur(joueur,booleen:bool)->None:
     setPlacerPionJoueur(joueur,_placerPionJoueur)
     return None
 
+def getModeEtenduJoueur(joueur)->bool:
+    if not type_joueur(joueur):
+        raise TypeError(" getModeEtenduJoueur : le paramètre ne correspond pas à un joueur.")
+    return joueur[const.MODE_ETENDU]
+
+def setModeEtenduJoueur(joueur,booleen = True )->None:
+    joueur[const.MODE_ETENDU]=True
+    if not booleen:
+        del joueur[const.MODE_ETENDU]
+    return None
